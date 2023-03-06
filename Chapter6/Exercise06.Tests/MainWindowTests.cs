@@ -24,11 +24,27 @@ namespace Exercise06.Tests
         public void Setup()
         {
             _window = new MainWindow();
+            Grid grid = (Grid)_window.Content;
 
-            _minutesRectangle = _window.GetAllPrivateFieldValues<Rectangle>().Where(field => field.Name.ToLower().Contains("minu")).First();
-            _secondsRectangle = _window.GetAllPrivateFieldValues<Rectangle>().Where(field => field.Name.ToLower().Contains("sec")).First();
+            var allRectangles = _window.GetAllPrivateFieldValues<Rectangle>()
+                .OrderBy(r => r.Margin.Top).ToList();
+            // _minutesRectangle is located at the top,
+            // _secondsRectangle at the bottom
+            // of the canvas
+            if (allRectangles.Count() > 0)
+            {
+                _minutesRectangle = allRectangles[0];
+                if (allRectangles.Count() > 1)
+                {
+                    _secondsRectangle = allRectangles[1];
+                }
+            }
 
-            _dispatcherTimer = _window.GetPrivateFieldValue<DispatcherTimer>();
+            //var allRectangles = grid.FindVisualChildren<Rectangle>().ToList();
+            //_minutesRectangle = allRectangles.Where(field => field.Name.ToLower().Contains("minu")).FirstOrDefault();
+            //_secondsRectangle = allRectangles.Where(field => field.Name.ToLower().Contains("sec")).FirstOrDefault();
+
+            _dispatcherTimer = _window.GetAllPrivateFieldValues<DispatcherTimer>().ToList().FirstOrDefault();
             if (_dispatcherTimer != null)
             {
                 _tickEventHandler = _dispatcherTimer.GetPrivateFieldValueByName<EventHandler>(nameof(DispatcherTimer.Tick));
