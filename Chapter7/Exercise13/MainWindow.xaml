@@ -5,8 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Exercise13"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Btw-tarief" Height="230" Width="240">
     <Grid>
-        
+        <Label x:Name="priceLabel" Content="Netto prijs:" HorizontalAlignment="Left" Height="24" Margin="10,33,0,0" VerticalAlignment="Top" Width="77"/>
+        <Label x:Name="btwLabel" Content="BTW:" HorizontalAlignment="Left" Height="24" Margin="10,103,0,0" VerticalAlignment="Top" Width="77"/>
+        <Label x:Name="totalLabel" Content="Totaal: " HorizontalAlignment="Left" Height="24" Margin="10,133,0,0" VerticalAlignment="Top" Width="77"/>
+        <CheckBox Name="tariefCheckBox" Content="Verlaagd tarief" Margin="121,65,304,231" Width="100"/>
+        <Button Name="berekenButton" Content="Bereken" HorizontalAlignment="Left" Height="20" Margin="144,177,0,0" VerticalAlignment="Top" Width="77" Click="berekenButton_Click"/>
+        <CheckBox x:Name="checkBox" Content="Verlaagd tarief" HorizontalAlignment="Left" Margin="123,70,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.233,0.177"/>
+        <TextBox x:Name="btwTextbox" HorizontalAlignment="Left" Margin="106,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <TextBox x:Name="totalTextbox" HorizontalAlignment="Left" Margin="106,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <TextBox x:Name="priceTextbox" HorizontalAlignment="Left" Margin="106,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>
