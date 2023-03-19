@@ -24,5 +24,27 @@ namespace Exercise14
         {
             InitializeComponent();
         }
+
+        private string ConvertNumberToBinary(int number)
+        {
+            String result = "";
+            if(number == 0)
+            {
+                result = "00000000";
+            }
+            for (int i = 0; number > 0; i++)
+            {
+                result = number % 2 + result;
+                number = number / 2;
+            }
+            return result;
+        }
+
+        private void buttontoBinary_Click(object sender, RoutedEventArgs e)
+        {
+            int number = Convert.ToInt32(inputNumber.Text);
+
+            outputBinary.Content = ConvertNumberToBinary(number);
+        }
     }
 }

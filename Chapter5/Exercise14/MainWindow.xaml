@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Label Content="Number between 0 and 255" HorizontalAlignment="Left" Margin="83,60,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="inputNumber" HorizontalAlignment="Left" Height="23" Margin="266,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="buttontoBinary" Content="To Binary" HorizontalAlignment="Left" Margin="124,110,0,0" VerticalAlignment="Top" Width="75" Click="buttontoBinary_Click"/>
+        <Label x:Name="outputBinary" Background="LightBlue" HorizontalAlignment="Left" Margin="83,173,0,0" VerticalAlignment="Top" Width="280" Height="23"/>
 
     </Grid>
 </Window>
