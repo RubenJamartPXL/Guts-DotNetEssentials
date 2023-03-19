@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Windows.Controls;
 using Guts.Client.Core;
-using Guts.Client.Core.TestTools;
 using Guts.Client.WPF.TestTools;
 using NUnit.Framework;
 
@@ -32,23 +31,24 @@ namespace Exercise13.Tests
         public void SetUp()
         {
             _window = new MainWindow();
+            Grid grid = (Grid)_window.Content;
 
-            _priceLabel = _window.GetPrivateFieldValueByName<Label>("priceLabel");
-            _btwLabel = _window.GetPrivateFieldValueByName<Label>("btwLabel");
-            _totalLabel = _window.GetPrivateFieldValueByName<Label>("totalLabel");
+            var allLabels = grid.FindVisualChildren<Label>().ToList();
+            _priceLabel = allLabels.Find(l => l.Content.ToString().ToLower().Contains("prijs"));
+            _btwLabel = allLabels.Find(l => l.Content.ToString().ToLower().Contains("btw"));
+            _totalLabel = allLabels.Find(l => l.Content.ToString().ToLower().Contains("totaal"));
 
-            var allTextBoxes = _window.GetAllPrivateFieldValues<TextBox>();
-
+            var allTextBoxes = grid.FindVisualChildren<TextBox>().ToList();
             _priceTextBox = allTextBoxes.FirstOrDefault(textBox =>
                 textBox.Name.ToLower().Contains("price") || textBox.Name.ToLower().Contains("prijs"));
 
-            _btwTextBox = allTextBoxes.FirstOrDefault(textBox => textBox.Name.ToLower().Contains("btw"));
+            _btwTextBox = allTextBoxes.FirstOrDefault(textBox => textBox.Name.ToLower().Contains("btw")
+                                                                 || textBox.Name.ToLower().Contains("vat"));
 
             _totalTextBox = allTextBoxes.FirstOrDefault(textBox => textBox.Name.ToLower().Contains("tot"));
 
-            _checkBox = _window.GetPrivateFieldValue<CheckBox>();
-
-            _button = _window.GetPrivateFieldValue<Button>();
+            _checkBox = grid.FindVisualChildren<CheckBox>().ToList().FirstOrDefault();
+            _button = grid.FindVisualChildren<Button>().ToList().FirstOrDefault();
         }
 
         [TearDown]
@@ -74,7 +74,7 @@ namespace Exercise13.Tests
         [MonitoredTest("Should have BTW controls"), Order(3)]
         public void _3_ShouldHaveBtwControls()
         {
-            Assert.That(_btwLabel, Is.Not.Null, () => "Could not find a Label control with content 'BTW:'");
+            Assert.That(_btwLabel, Is.Not.Null, () => "Could not find a Label control with name 'btwLabel' or 'vatLabel'");
             Assert.That(_btwTextBox, Is.Not.Null, () => "Could not find a TextBox control that has the text 'btw' in its name. Consider using 'btwTextBox' as value for the 'Name' property");
         }
 
@@ -97,8 +97,8 @@ namespace Exercise13.Tests
         {
             AssertAllControlsArePresent();
 
-            Assert.That(_btwTextBox.IsEnabled, Is.False, () => "The BTW TextBox is not readonly. Tip: 'IsEnabled' property.");
-            Assert.That(_totalTextBox.IsEnabled, Is.False, () => "The total TextBox is not readonly. Tip: 'IsEnabled' property.");
+            Assert.That(!_btwTextBox.IsEnabled || _btwTextBox.IsReadOnly, Is.True, () => "The BTW TextBox is not readonly. Tip: 'IsEnabled' or 'IsReadOnly' property.");
+            Assert.That(!_totalTextBox.IsEnabled || _totalTextBox.IsReadOnly, Is.True, () => "The total TextBox is not readonly. Tip: 'IsEnabled' or 'IsReadOnly' property.");
         }
 
         [MonitoredTest("Should calculate Btw at 21% when checkbox is unchecked"), Order(7)]

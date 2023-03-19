@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Exercise14"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Autoverzekering" Height="350" Width="260">
     <Grid>
-      
+        <GroupBox Name="genderGroupBox" Header="Geslacht" Margin="27,110,38,167">
+            <Grid>
+                <RadioButton Name="MaleRadioButton" Content="Man" HorizontalAlignment="Left" Margin="36,0,0,0" VerticalAlignment="Center" Width="56" GroupName="genderGroupBox"/>
+                <RadioButton Name="FemaleRadioButton" Content="Vrouw" HorizontalAlignment="Left" Margin="116,0,0,0" VerticalAlignment="Center" Width="57" GroupName="genderGroupBox"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Name="ageGroupBox" Header="Leeftijd" Margin="27,181,39,35">
+            <Grid>
+                <RadioButton Name="leeftijd1Button" Content="tussen 18 en 30" HorizontalAlignment="Left" Margin="19,20,0,0" VerticalAlignment="Top" GroupName="ageGroupBox" Grid.Column="1"/>
+                <RadioButton Name="leeftijd2Button" Content="tussen 30 en 45" HorizontalAlignment="Left" Margin="19,0,0,0" VerticalAlignment="Top" GroupName="ageGroupBox" Grid.Column="1"/>
+                <RadioButton Name="leeftijd3Button" Content="tussen 45 en 60" HorizontalAlignment="Left" Margin="19,0,0,0" VerticalAlignment="Center" GroupName="ageGroupBox" Grid.Column="1"/>
+                <RadioButton Name="leeftijd4Button" Content="ouder dan 60" HorizontalAlignment="Left" Margin="19,60,0,0" VerticalAlignment="Top" GroupName="ageGroupBox" Grid.Column="1"/>
+            </Grid>
+        </GroupBox>
+        <Label Name="lastNameLabel" Content="Naam:" HorizontalAlignment="Left" Margin="27,27,0,0" VerticalAlignment="Top"/>
+        <Label Name="firstNameLabel" Content="Voornaam:" HorizontalAlignment="Left" Margin="27,58,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="lastNameTextBox" HorizontalAlignment="Left" Margin="109,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" Height="22"/>
+        <TextBox Name="firstNameTextBox" HorizontalAlignment="Left" Margin="109,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113" Height="22"/>
+        <Button Name="berekenButton" Content="Bereken" HorizontalAlignment="Left" Margin="149,304,0,0" VerticalAlignment="Top" Width="72" Click="berekenButton_Click"/>
     </Grid>
 </Window>

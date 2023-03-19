@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Controls;
 using Guts.Client.Core;
-using Guts.Client.Core.TestTools;
 using Guts.Client.WPF.TestTools;
+using System.Windows;
 
 namespace Exercise07.Tests
 {
@@ -17,15 +17,19 @@ namespace Exercise07.Tests
 
         private TextBox _sizeTextBox;
         private Button _drawButton;
-        private TextBlock _tableTextBlock;
+        private TextBox _tableTextBox;
 
         [SetUp]
         public void Setup()
         {
             _testWindow = new MainWindow();
-            _sizeTextBox = _testWindow.GetPrivateFieldValue<TextBox>();
-            _drawButton = _testWindow.GetPrivateFieldValueByName<Button>("drawButton");
-            _tableTextBlock = _testWindow.GetPrivateFieldValue<TextBlock>();
+            Grid grid = (Grid)_testWindow.Content;
+
+            _drawButton = grid.FindVisualChildren<Button>().ToList().FirstOrDefault();
+
+            var allTextBoxes = grid.FindVisualChildren<TextBox>().ToList();
+            _sizeTextBox = allTextBoxes.Find(tb => tb.Name.ToLower().Contains("size"));
+            _tableTextBox = allTextBoxes.Find(tb => tb.Name.ToLower().Contains("table"));
         }
 
         [TearDown]
@@ -34,8 +38,8 @@ namespace Exercise07.Tests
             _testWindow?.Close();
         }
 
-        [MonitoredTest("Should have a TextBox, Button and TextBlock"), Order(1)]
-        public void _1_ShouldHaveATextBoxAndButtonAndTextBlock()
+        [MonitoredTest("Should have two TextBoxes and a Button"), Order(1)]
+        public void _1_ShouldHaveTwoTextBoxAndButton()
         {
             ValidateControls();
         }
@@ -56,7 +60,7 @@ namespace Exercise07.Tests
             _drawButton.FireClickEvent();
 
             var expectedLines = expectedResult.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            var actualLines = _tableTextBlock.Text.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            var actualLines = _tableTextBox.Text.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
             Assert.That(expectedLines.Length, Is.EqualTo(actualLines.Length),
                 () =>
@@ -79,11 +83,17 @@ namespace Exercise07.Tests
         private void ValidateControls()
         {
             Assert.That(_sizeTextBox, Is.Not.Null,
-                () => "Could not find a TextBox control for entering the size of the multiplication table.");
+                () => "Could not find a TextBox control called 'sizeTextBox' for entering the size of the multiplication table.");
             Assert.That(_drawButton, Is.Not.Null,
                 () => "Could not find a Button control called sizeButton.");
-            Assert.That(_tableTextBlock, Is.Not.Null,
-                () => "Could not find a TextBlock control in the 'Grid' to display the results.");
+            Assert.That(_tableTextBox, Is.Not.Null,
+                () => "Could not find a TextBox control called 'tableTextBox' to display the results.");
+            Assert.That(_tableTextBox.TextWrapping, Is.EqualTo(TextWrapping.NoWrap),
+                () => "'tableTextBox' should set its 'TextWrapping' property to 'NoWrap'");
+            Assert.That(_tableTextBox.VerticalScrollBarVisibility, Is.EqualTo(ScrollBarVisibility.Auto),
+                () => "'tableTextBox' should set its 'VerticalScrollBarVisibility' property to 'Auto'");
+            Assert.That(_tableTextBox.HorizontalScrollBarVisibility, Is.EqualTo(ScrollBarVisibility.Auto),
+               () => "'tableTextBox' should set its 'HorizontalScrollBarVisibility' property to 'Auto'");
         }
     }
 }
